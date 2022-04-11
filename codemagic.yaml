@@ -16,12 +16,18 @@ workflows:
                   include: true
                   source: true
         scripts:
-            - name: What is going on here
+            - name: Set up local.properties
               script: |
-                ls -la $CM_BUILD_DIR
+              echo "flutter.sdk=$HOME/programs/flutter" > "$FCI_BUILD_DIR/android/local.properties
             - name: Set Android SDK location
               script: |
                 echo "sdk.dir=$ANDROID_SDK_ROOT" > "$FCI_BUILD_DIR/local.properties"
+            - name: Flutter analyze
+              script: |
+                flutter analyze
+            - name: Flutter Unit test
+              script: |
+                flutter test
             # - name: Set up keystore
             #   script: |
             #         echo $CM_KEYSTORE | base64 --decode > /tmp/keystore.keystore
@@ -32,7 +38,7 @@ workflows:
             #         # keyAlias=$CM_KEY_ALIAS_USERNAME
             #         # storeFile=/tmp/keystore.keystore
             #         # EOF
-            - name: Build Android debug APK
+            - name: Build Android APK
               script: |
                 flutter build apk --debug
             - name: Build Android test APK
