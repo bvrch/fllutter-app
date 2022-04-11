@@ -34,7 +34,9 @@ workflows:
             #         # EOF
             - name: Build Android debug APK
               script: |
-                cd android && echo $PWD && assembleDebug
+                cd android
+                echo $PWD 
+                ./gradlew assembleDebug
             - name: Build Android test APK
               script: |
                 flutter test 
