@@ -1,7 +1,8 @@
 workflows:
     native-android:
         name: Native Android
-        instance_type: mac_pro
+        instance_type: mac_mini
+        max_build_duration: 60
         environment:
             node: latest
             xcode: 12.2
@@ -11,7 +12,7 @@ workflows:
                 - tag
                 - pull_request
             branch_patterns:
-                - pattern: develop
+                - pattern: '*'
                   include: true
                   source: true
         scripts:
