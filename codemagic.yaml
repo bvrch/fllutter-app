@@ -18,7 +18,7 @@ workflows:
         scripts:
             - name: What is going on here
               script: |
-              ls -la $CM_BUILD_DIR
+                ls -la $CM_BUILD_DIR
             - name: Set Android SDK location
               script: |
                 echo "sdk.dir=$ANDROID_SDK_ROOT" > "$FCI_BUILD_DIR/local.properties"
