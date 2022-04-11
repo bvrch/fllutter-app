@@ -34,10 +34,10 @@ workflows:
             #         # EOF
             - name: Build Android debug APK
               script: |
-                cd ./android && ./gradlew assembleDebug
+                cd android && ./gradlew assembleDebug
             - name: Build Android test APK
               script: |
-                cd ./android  ./gradlew assembleAndroidTest
+                cd android && ./gradlew assembleAndroidTest
             # - name: Build Android production release
             #   script: |
             #     ./gradlew assembleRelease    
