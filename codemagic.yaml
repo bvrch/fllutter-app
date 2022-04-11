@@ -71,6 +71,9 @@ workflows:
                   include: true
                   source: true
         scripts:
-            - name: What is going on here
+            - name: Build Web
               script: |
-                flutter run
+                flutter config --enable-web
+                flutter build web --release
+                cd build/web
+                7z a -r ../web.zip ./*  
