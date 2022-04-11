@@ -18,10 +18,14 @@ workflows:
         scripts:
             - name: Set up local.properties
               script: |
-                echo "flutter.sdk=$HOME/programs/flutter" > "$FCI_BUILD_DIR/android/local.properties
+                echo "flutter.sdk=$FLUTTER_ROOT" > "$CM_BUILD_DIR/android/local.properties
             - name: Set Android SDK location
               script: |
-                echo "sdk.dir=$ANDROID_SDK_ROOT" > "$FCI_BUILD_DIR/local.properties"
+                echo "sdk.dir=$ANDROID_SDK_ROOT" > "$CM_BUILD_DIR/local.properties"
+            - name: Chech local.properties files
+            script: |
+              cat $CM_BUILD_DIR/android/local.properties
+              cat $CM_BUILD_DIR/local.properties
             - name: Flutter analyze
               script: |
                 flutter analyze
