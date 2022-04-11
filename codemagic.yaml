@@ -37,6 +37,7 @@ workflows:
                 cd android
                 echo $PWD 
                 ./gradlew assembleDebug
+                EOF
             - name: Build Android test APK
               script: |
                 flutter test 
