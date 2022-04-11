@@ -34,7 +34,7 @@ workflows:
                 cd ./android && ./gradlew assembleDebug
             - name: Build Android test APK
               script: |
-                ./gradlew assembleAndroidTest
+                cd ./android  ./gradlew assembleAndroidTest
             # - name: Build Android production release
             #   script: |
             #     ./gradlew assembleRelease    
