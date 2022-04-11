@@ -33,7 +33,8 @@ workflows:
             #         # storeFile=/tmp/keystore.keystore
             #         # EOF
             - name: Build Android debug APK
-              script: cd $CM_BUILD_DIR/android && ls -la && ./gradlew assembleDebug
+              script: |
+                flutter build apk --debug
             - name: Build Android test APK
               script: |
                 flutter test 
@@ -52,3 +53,24 @@ workflows:
             # google_play:                          # For publishing your Android app to Google Play
             #     credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
             #     track: alpha                      # Name of the track: internal, alpha, beta, production
+
+    web:
+        name: Flutter Web
+        instance_type: mac_mini
+        max_build_duration: 60
+        environment:
+            node: latest
+            xcode: 12.2
+        triggering:
+            events:
+                - push
+                - tag
+                - pull_request
+            branch_patterns:
+                - pattern: '*'
+                  include: true
+                  source: true
+        scripts:
+            - name: What is going on here
+              script: |
+                flutter run
