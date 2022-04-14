@@ -4,6 +4,8 @@ workflows:
         instance_type: mac_mini
         max_build_duration: 60
         environment:
+            groups:
+              - TEST_GROUP
             node: latest
             xcode: 12.2
         triggering:
@@ -16,6 +18,9 @@ workflows:
                   include: true
                   source: true
         scripts:
+          - name: Check global vars & groups
+            script: |
+              echo $TEST_VAR
           - name: Set up local.properties
             script: |
               echo "flutter.sdk=$FLUTTER_ROOT" > "$CM_BUILD_DIR/android/local.properties"
@@ -96,6 +101,18 @@ workflows:
             # - name: Fetch signing files
             #   script: |
             #     app-store-connect fetch-signing-files "$BUNDLE_ID" --type IOS_APP_STORE --create
+            # - name: Add certs to keychain
+            #   script: |
+            #     keychain add-certificates
+            # - name: Set up code signing settings on Xcode project
+            #   script: |
+            #     xcode-project use-profiles
+            # - name: Flutter build ipa and automatic versioning
+            #   script: |
+            #     flutter build ipa --release \
+            #     --build-name=1.0.0 \
+            #     --build-number=$(($(app-store-connect get-latest-testflight-build-number "$APP_STORE_ID") + 1)) \
+            #     --export-options-plist=/Users/builder/export_options.plist    
             - name: Build without signing
               script: |
                 flutter build ios --debug --no-codesign
