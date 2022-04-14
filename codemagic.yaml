@@ -61,13 +61,13 @@ workflows:
                 notify:
                   success: true
                   failure: false   
-            google_play: 
-              credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS # Contents of the JSON key file for Google Play service account saved as a secure environment variable
-              track: alpha # Name of the track internal, alpha, beta, production, internal app sharing, or your custom track name
-              in_app_update_priority: 3 #0-5
-              rollout_fraction: 0.25 
-              changes_not_sent_for_review: false
-              submit_as_draft: true 
+            # google_play: 
+            #   credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS # Contents of the JSON key file for Google Play service account saved as a secure environment variable
+            #   track: alpha # Name of the track internal, alpha, beta, production, internal app sharing, or your custom track name
+            #   in_app_update_priority: 3 #0-5
+            #   rollout_fraction: 0.25 
+            #   changes_not_sent_for_review: false
+            #   submit_as_draft: true 
     
     native-ios:
         name: Native iOS
