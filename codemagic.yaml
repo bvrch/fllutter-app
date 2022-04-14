@@ -18,7 +18,7 @@ workflows:
         scripts:
             - name: Set up local.properties
               script: |
-                echo "flutter.sdk=$FLUTTER_ROOT" > "$CM_BUILD_DIR/android/local.properties
+                echo "flutter.sdk=$FLUTTER_ROOT" > "$CM_BUILD_DIR/android/local.properties"
             - name: Set Android SDK location
               script: |
                 echo "sdk.dir=$ANDROID_SDK_ROOT" > "$CM_BUILD_DIR/local.properties"
@@ -50,9 +50,10 @@ workflows:
                 flutter test 
             # - name: Build Android production release
             #   script: |
-            #     ./gradlew assembleRelease    
+            #     flutter build apk --release
         artifacts:
             - app/build/outputs/**/*.apk
+            - flutter_drive.log
         publishing:
             email:
                 recipients:
@@ -63,6 +64,62 @@ workflows:
             # google_play:                          # For publishing your Android app to Google Play
             #     credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
             #     track: alpha                      # Name of the track: internal, alpha, beta, production
+    
+    native-ios:
+        name: Native iOS
+        instance_type: mac_mini
+        max_build_duration: 60
+        environment:
+            node: latest
+            xcode: 12.2
+            cocoapods: default
+        triggering:
+            events:
+                - push
+                - tag
+                - pull_request
+            branch_patterns:
+                - pattern: '*'
+                  include: true
+                  source: true
+        scripts:
+            # - name: Pod install
+            #   script: |
+            #     find . -name "Podfile" -execdir pod install \;
+            # - name: Set up keychain to be used for codesigning using Codemagic CLI 'keychain' command
+            #   script: |
+            #     keychain initialize
+            # - name: Fetch signing files
+            #   script: |
+            #     app-store-connect fetch-signing-files "$BUNDLE_ID" --type IOS_APP_STORE --create
+            - name: Build without signing
+              script: |
+                flutter build ios --debug --no-codesign
+        artifacts: 
+          - build/ios/ipa/*.ipa
+          - /tmp/xcodebuild_logs/*.log
+          - flutter_drive.log
+          # - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
+        publishing:
+            # scripts:
+            #   - name: Crashlytics
+            #     script: |
+            #       echo "Find build artifacts"
+            #       dsymPath=$(find $CM_BUILD_DIR/build/ios/archive/Runner.xcarchive -name "*.dSYM" | head -1)
+            #       if [[ -z ${dsymPath} ]]
+            #       then
+            #         echo "No debug symbols were found, skip publishing to Firebase Crashlytics"
+            #       else
+            #         echo "Publishing debug symbols from $dsymPath to Firebase Crashlytics"
+            #         ls -d -- ios/Pods/*
+            #         $CM_BUILD_DIR/ios/Pods/FirebaseCrashlytics/upload-symbols -gsp ios/Runner/GoogleService-Info.plist -p ios $dsymPath
+            #       fi
+            email:
+                recipients:
+                    - nikbarch@gmail.com
+                notify:
+                  success: true
+                  failure: false  
 
     web:
         name: Flutter Web
