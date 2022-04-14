@@ -16,41 +16,41 @@ workflows:
                   include: true
                   source: true
         scripts:
-            - name: Set up local.properties
-              script: |
-                echo "flutter.sdk=$FLUTTER_ROOT" > "$CM_BUILD_DIR/android/local.properties"
-            - name: Set Android SDK location
-              script: |
-                echo "sdk.dir=$ANDROID_SDK_ROOT" > "$CM_BUILD_DIR/local.properties"
-            - name: Chech local.properties files
+          - name: Set up local.properties
+            script: |
+              echo "flutter.sdk=$FLUTTER_ROOT" > "$CM_BUILD_DIR/android/local.properties"
+          - name: Set Android SDK location
+            script: |
+              echo "sdk.dir=$ANDROID_SDK_ROOT" > "$CM_BUILD_DIR/local.properties"
+          - name: Chech local.properties files
             script: |
               cat $CM_BUILD_DIR/android/local.properties
               cat $CM_BUILD_DIR/local.properties
-            - name: Flutter analyze
-              script: |
+          - name: Flutter analyze
+            script: |
                 flutter analyze
-            - name: Flutter Unit test
-              script: |
-                flutter test
-            # - name: Set up keystore
-            #   script: |
-            #         echo $CM_KEYSTORE | base64 --decode > /tmp/keystore.keystore
-            #         # The following script creates key.properties file and stores the credentials in it. As we configure code signing in app/build.gradle file, the following part is unnecessary unless code signing is configured differently as explained in the documentation: https://docs.codemagic.io/flutter-code-signing/android-code-signing/
-            #         # cat >> "$FCI_BUILD_DIR/key.properties" <<EOF
-            #         # storePassword=$CM_KEYSTORE_PASSWORD
-            #         # keyPassword=$CM_KEY_ALIAS_PASSWORD
-            #         # keyAlias=$CM_KEY_ALIAS_USERNAME
-            #         # storeFile=/tmp/keystore.keystore
-            #         # EOF
-            - name: Build Android APK
-              script: |
-                flutter build apk --debug
-            - name: Build Android test APK
-              script: |
-                flutter test 
-            # - name: Build Android production release
-            #   script: |
-            #     flutter build apk --release
+          - name: Flutter Unit test
+            script: |
+              flutter test
+          # - name: Set up keystore
+          #   script: |
+          #         echo $CM_KEYSTORE | base64 --decode > /tmp/keystore.keystore
+          #         # The following script creates key.properties file and stores the credentials in it. As we configure code signing in app/build.gradle file, the following part is unnecessary unless code signing is configured differently as explained in the documentation: https://docs.codemagic.io/flutter-code-signing/android-code-signing/
+          #         # cat >> "$FCI_BUILD_DIR/key.properties" <<EOF
+          #         # storePassword=$CM_KEYSTORE_PASSWORD
+          #         # keyPassword=$CM_KEY_ALIAS_PASSWORD
+          #         # keyAlias=$CM_KEY_ALIAS_USERNAME
+          #         # storeFile=/tmp/keystore.keystore
+          #         # EOF
+          - name: Build Android APK
+            script: |
+              flutter build apk --debug
+          # - name: Build Android test APK
+          #   script: |
+          #     flutter test 
+          # - name: Build Android production release
+          #   script: |
+          #     flutter build apk --release
         artifacts:
             - app/build/outputs/**/*.apk
             - flutter_drive.log
