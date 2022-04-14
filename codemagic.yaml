@@ -75,7 +75,7 @@ workflows:
         max_build_duration: 60
         environment:
             node: latest
-            xcode: 12.2
+            xcode: 12.3
             cocoapods: default
         triggering:
             events:
